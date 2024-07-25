@@ -128,6 +128,12 @@ const NewHostel = () => {
         <Label className="block text-gray-700 font-semibold mb-2">
           Select Location
         </Label>
+        <Input
+          type="text"
+          value={location?.full_address || "SELECT LOCATION ON MAP"}
+          disabled
+          className="border p-2 w-full rounded my-2 text-xs"
+        />
         <LocationMap onLocationSelect={handleLocationSelect} />
       </Field>
 

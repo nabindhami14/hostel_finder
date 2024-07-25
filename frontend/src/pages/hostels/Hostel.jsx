@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { getHostel } from "../../api";
 import HostelMap from "../../components/maps/HostelMap";
 import SingleHostel from "../../components/SingleHostel";
+import BookHostel from "../../components/BookHostel";
 
 const Hostel = () => {
   const { hostelId } = useParams();
@@ -21,6 +22,7 @@ const Hostel = () => {
   return (
     <div className="container mx-auto">
       <SingleHostel hostel={hostel} />
+      <BookHostel hostelId={hostelId} />
       <HostelMap hostel={hostel} />
     </div>
   );

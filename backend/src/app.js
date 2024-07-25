@@ -6,7 +6,6 @@ const sequelize = require("./config/sequalize");
 
 // ROUTES
 const authRoutes = require("./routes/auth");
-const roomRoutes = require("./routes/room");
 const hostelRoutes = require("./routes/hostel");
 const bookingRoutes = require("./routes/booking");
 
@@ -19,7 +18,6 @@ console.log(path.join(__dirname, "..", "public"));
 app.use("/public", express.static(path.join(__dirname, "..", "public")));
 
 app.use("/api/auth", authRoutes);
-app.use("/api/rooms", roomRoutes);
 app.use("/api/hostels", hostelRoutes);
 app.use("/api/bookings", bookingRoutes);
 

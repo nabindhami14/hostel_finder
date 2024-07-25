@@ -3,15 +3,13 @@ const express = require("express");
 const router = express.Router();
 
 const Booking = require("../models/booking");
+const authenticate = require("../middleware/authenticate");
 
-router.post("/", async (req, res) => {
-  const { userId, roomId, checkInDate, checkOutDate } = req.body;
+router.post("/", authenticate, async (req, res) => {
   try {
     const booking = await Booking.create({
-      userId,
-      roomId,
-      checkInDate,
-      checkOutDate,
+      userId: +req.user.userId,
+      hostelId: +req.body.hostelId,
     });
     res.status(201).json(booking);
   } catch (error) {
@@ -23,6 +21,18 @@ router.post("/", async (req, res) => {
 router.get("/", async (req, res) => {
   try {
     const bookings = await Booking.findAll();
+    res.json(bookings);
+  } catch (error) {
+    console.error("Error fetching bookings:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+router.get("/user", authenticate, async (req, res) => {
+  try {
+    const bookings = await Booking.findAll({
+      where: { userId: req.user.userId },
+    });
     res.json(bookings);
   } catch (error) {
     console.error("Error fetching bookings:", error);
@@ -49,6 +59,7 @@ router.get("/:id", async (req, res) => {
 router.put("/:id", async (req, res) => {
   const bookingId = req.params.id;
   const { userId, roomId, checkInDate, checkOutDate } = req.body;
+
   try {
     const booking = await Booking.findByPk(bookingId);
     if (!booking) {
@@ -68,6 +79,7 @@ router.put("/:id", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   const bookingId = req.params.id;
+
   try {
     const booking = await Booking.findByPk(bookingId);
     if (!booking) {

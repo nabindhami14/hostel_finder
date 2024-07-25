@@ -1,7 +1,8 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("../config/sequalize");
-const Room = require("./room");
+
 const User = require("./user");
+const Hostel = require("./hostel");
+const sequelize = require("../config/sequalize");
 
 const Booking = sequelize.define("bookings", {
   id: {
@@ -16,27 +17,23 @@ const Booking = sequelize.define("bookings", {
       key: "id",
     },
   },
-  roomId: {
+  hostelId: {
     type: DataTypes.INTEGER,
     references: {
-      model: Room,
+      model: Hostel,
       key: "id",
     },
   },
-  checkInDate: {
-    type: DataTypes.DATE,
-    allowNull: false,
-  },
-  checkOutDate: {
-    type: DataTypes.DATE,
-    allowNull: false,
+  status: {
+    type: DataTypes.ENUM("PENDING", "SUCCESS", "CANCELLED"),
+    defaultValue: "PENDING",
   },
 });
 
 User.hasMany(Booking, { foreignKey: "userId" });
 Booking.belongsTo(User, { foreignKey: "userId" });
 
-Room.hasMany(Booking, { foreignKey: "roomId" });
-Booking.belongsTo(Room, { foreignKey: "roomId" });
+Hostel.hasMany(Booking, { foreignKey: "hostelId" });
+Booking.belongsTo(User, { foreignKey: "userId" });
 
 module.exports = Booking;

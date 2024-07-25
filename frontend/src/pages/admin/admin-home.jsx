@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 import { getHostels } from "../../api";
 import HostelsTable from "../../components/table/hostels-table";
+import AllBookings from "../../components/AllBookingsx";
 
 const AdminHome = () => {
   const { data, isLoading } = useQuery({
@@ -21,7 +22,12 @@ const AdminHome = () => {
         </button>
       </Link>
 
-      {data.data.length > 0 && <HostelsTable hostels={data.data} />}
+      <div className="my-10">
+        <h2 className="underline">Hostels</h2>
+        {data.data.length > 0 && <HostelsTable hostels={data.data} />}
+      </div>
+
+      <AllBookings />
     </div>
   );
 };
